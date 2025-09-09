@@ -35,9 +35,9 @@ da2a59b0-3c0d-4b8e-b309-fc5d3e0e7c0c
 
 6. Install below Plugins on Jenkins server
 
-1. Pipeline Maven Integration
+   1. Pipeline Maven Integration
 
-2. Nexus Artifact Uploader
+   2. Nexus Artifact Uploader
 
 
 7. Navigate to Manage Jenkins -> Tools -> Configure Maven installation ->
@@ -45,7 +45,18 @@ da2a59b0-3c0d-4b8e-b309-fc5d3e0e7c0c
    Name : M3
    MAVEN_HOME : /usr/share/maven
 
-8.  Managed Jenkins -> Managed Files -> Add new config (Global-Setting)-> content -> 111
+8.  setting of  Jenkins ->
+     Managed Files -> Add new config
+     ID Name :(Global-Setting)
+     -> content -> 111 <add on that lines below code >
+    
+
+    mkdir -p /var/lib/jenkins/.m2
+    sudo nano  /var/lib/jenkins/.m2/settings.xml
+    <settings xmlns="http://maven.apache.org/SETTTUGs/1.0.0"
+    		xmlns : xsi="http://www.w3.org/2001/XMLSchema-instance"
+			xsi : schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+         							 https://maven.apache.org/xsd/settings-1.0.0.xsd">
     
 
 <servers>
