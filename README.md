@@ -161,6 +161,63 @@ pipeline {
 
 
 
+after adding the pipeline :
+
+then create the .m2 folder and inside of that folder create the settings.xml file .
+
+settings.xml:
+ mkdir -p /var/lib/jenkins/.m2
+    sudo nano  /var/lib/jenkins/.m2/settings.xml
+    <settings xmlns="http://maven.apache.org/SETTTUGs/1.0.0"
+    		xmlns : xsi="http://www.w3.org/2001/XMLSchema-instance"
+			xsi : schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+         							 https://maven.apache.org/xsd/settings-1.0.0.xsd">
+    
+
+<servers>
+    <server>
+      <id>maven-releases</id>
+      <username>admin</username>
+      <password>admin123</password>
+    </server>
+
+    <server>
+      <id>maven-snapshots</id>
+      <username>admin</username>
+      <password>admin123</password>
+    </server>
+
+
+after that install the nginx on machine :
+
+# apt install nginx -y 
+
+
+
+first build :
+give branch name as main in pipeline 
+
+second build : 
+give the permission to the file in .m2 (Jenkins folder) :
+sudo mkdir -p /var/lib/jenkins/.m2/repository
+sudo chown -R jenkins:jenkins /var/lib/jenkins/.m2
+
+refresh the jenkins and close the nexux and start again .
+
+
+next build :
+
+check the password in maven config in jenkins and also in jenkins server on ubuntu .
+
+last : 
+
+-open file 
+#sudo visudo
+add line  to the last of file 
+#jenkins ALL=(ALL) NOPASSWD: ALL
+
+
+build again :
 
 12. # vim /etc/sudoers
 
