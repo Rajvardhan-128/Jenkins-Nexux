@@ -4,33 +4,31 @@ Steps -
 
 2. Install Jenkins on ubuntu server. -
 
-   https://www.jenkins.io/doc/book/installing/linux/
+       https://www.jenkins.io/doc/book/installing/linux/
 
 3. Install maven 3.8.7
 
-   # apt install maven -y
+       # apt install maven -y
 
 4. Nexus Installation on docker image
    
-  # apt install docker.io -y
-
-  # docker pull sonatype/nexus3
-
-  # docker volume create nexus-data
-
-  # docker run -d -p 8081:8081 --name nexus \
-  -v nexus-data:/nexus-data \
-  sonatype/nexus3
+		  # apt install docker.io -y
+		
+		  # docker pull sonatype/nexus3
+		
+		  # docker volume create nexus-data
+		
+		  # docker run -d -p 8081:8081 --name nexus \ -v nexus-data:/nexus-data \ sonatype/nexus3
 
 5. Fetch password -
 
-# docker ps
+		# docker ps
 
-# docker exec -it nexus /bin/bash
+		# docker exec -it nexus /bin/bash
 
-# cat /nexus-data/admin.password
+		# cat /nexus-data/admin.password
 
-da2a59b0-3c0d-4b8e-b309-fc5d3e0e7c0c
+			da2a59b0-3c0d-4b8e-b309-fc5d3e0e7c0c
 
 
 6. Install below Plugins on Jenkins server
@@ -51,56 +49,56 @@ da2a59b0-3c0d-4b8e-b309-fc5d3e0e7c0c
      -> content -> 111 <add on that lines below code >
     
 
-    mkdir -p /var/lib/jenkins/.m2
-    sudo nano  /var/lib/jenkins/.m2/settings.xml
-    <settings xmlns="http://maven.apache.org/SETTTUGs/1.0.0"
-    		xmlns : xsi="http://www.w3.org/2001/XMLSchema-instance"
-			xsi : schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
-         							 https://maven.apache.org/xsd/settings-1.0.0.xsd">
-    
+		    mkdir -p /var/lib/jenkins/.m2
+		    sudo nano  /var/lib/jenkins/.m2/settings.xml
+		    <settings xmlns="http://maven.apache.org/SETTTUGs/1.0.0"
+		    		xmlns : xsi="http://www.w3.org/2001/XMLSchema-instance"
+					xsi : schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+		         							 https://maven.apache.org/xsd/settings-1.0.0.xsd">
+		    
+		
+		<servers>
+		    <server>
+		      <id>maven-releases</id>
+		      <username>admin</username>
+		      <password>admin123</password>
+		    </server>
 
-<servers>
-    <server>
-      <id>maven-releases</id>
-      <username>admin</username>
-      <password>admin123</password>
-    </server>
-
-    <server>
-      <id>maven-snapshots</id>
-      <username>admin</username>
-      <password>admin123</password>
-    </server>
-  </servers>
-</settings> 
+		    <server>
+		      <id>maven-snapshots</id>
+		      <username>admin</username>
+		      <password>admin123</password>
+		    </server>
+		  </servers>
+		</settings> 
   
 
-9. Login to Jenkins servr
+9. Login to Jenkins server
 
 
-# ls -l /var/lib/jenkins/.M2/
-# mkdir -p /var/lib/jenkins/.m2
-# vim /var/lib/jenkins/.m2/settings.xml
-
-<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
-          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
-                              https://maven.apache.org/xsd/settings-1.0.0.xsd">
-
-<servers>
-    <server>
-      <id>maven-releases</id>
-      <username>admin</username>
-      <password>admin123</password>
-    </server>
-
-    <server>
-      <id>maven-snapshots</id>
-      <username>admin</username>
-      <password>admin123</password>
-    </server>
-  </servers>
-</settings>
+		# ls -l /var/lib/jenkins/.M2/
+		# mkdir -p /var/lib/jenkins/.m2
+		# vim /var/lib/jenkins/.m2/settings.xml
+		
+		<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+		          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+		                              https://maven.apache.org/xsd/settings-1.0.0.xsd">
+		
+		<servers>
+		    <server>
+		      <id>maven-releases</id>
+		      <username>admin</username>
+		      <password>admin123</password>
+		    </server>
+		
+		    <server>
+		      <id>maven-snapshots</id>
+		      <username>admin</username>
+		      <password>admin123</password>
+		    </server>
+		  </servers>
+		</settings>
 
 
 10. Edit POM.xml for server IP
@@ -110,25 +108,25 @@ da2a59b0-3c0d-4b8e-b309-fc5d3e0e7c0c
 
 11. Write your Jenkinsfile
 
-pipeline {
-    agent any
-
-    environment {
-        APP_NAME = "myapp"
-    }
-
-    stages {
-        stage('Checkout Code') {
-            steps {
-                git branch: 'master', url: 'https://github.com/ygminds73/maven-simple-master.git'
-            }
-        }
-
-        stage('Build with Maven') {
-            steps {
-                sh 'mvn clean package'
-            }
-        }
+		pipeline {
+		    agent any
+	
+	    environment {
+	        APP_NAME = "myapp"
+	    }
+	
+	    stages {
+	        stage('Checkout Code') {
+	            steps {
+	                git branch: 'master', url: 'https://github.com/ygminds73/maven-simple-master.git'
+	            }
+	        }
+	
+	        stage('Build with Maven') {
+	            steps {
+	                sh 'mvn clean package'
+	            }
+	        }
 
         stage('Upload to Nexus') {
             steps {
@@ -155,9 +153,9 @@ pipeline {
                 sudo systemctl restart nginx
                 """
             }
-        }
-    }
-}
+		        }
+		    }
+		}
 
 
 
@@ -166,31 +164,32 @@ after adding the pipeline :
 then create the .m2 folder and inside of that folder create the settings.xml file .
 
 settings.xml:
- mkdir -p /var/lib/jenkins/.m2
-    sudo nano  /var/lib/jenkins/.m2/settings.xml
-    <settings xmlns="http://maven.apache.org/SETTTUGs/1.0.0"
-    		xmlns : xsi="http://www.w3.org/2001/XMLSchema-instance"
-			xsi : schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
-         							 https://maven.apache.org/xsd/settings-1.0.0.xsd">
-    
 
-<servers>
-    <server>
-      <id>maven-releases</id>
-      <username>admin</username>
-      <password>admin123</password>
-    </server>
-
-    <server>
-      <id>maven-snapshots</id>
-      <username>admin</username>
-      <password>admin123</password>
-    </server>
+		mkdir -p /var/lib/jenkins/.m2
+		    sudo nano  /var/lib/jenkins/.m2/settings.xml
+		    <settings xmlns="http://maven.apache.org/SETTTUGs/1.0.0"
+		    		xmlns : xsi="http://www.w3.org/2001/XMLSchema-instance"
+					xsi : schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+		         							 https://maven.apache.org/xsd/settings-1.0.0.xsd">
+		    
+		
+		<servers>
+		    <server>
+		      <id>maven-releases</id>
+		      <username>admin</username>
+		      <password>admin123</password>
+		    </server>
+		
+		    <server>
+		      <id>maven-snapshots</id>
+		      <username>admin</username>
+		      <password>admin123</password>
+		    </server>
 
 
 after that install the nginx on machine :
 
-# apt install nginx -y 
+	# apt install nginx -y 
 
 
 
@@ -199,8 +198,9 @@ give branch name as main in pipeline
 
 second build : 
 give the permission to the file in .m2 (Jenkins folder) :
-sudo mkdir -p /var/lib/jenkins/.m2/repository
-sudo chown -R jenkins:jenkins /var/lib/jenkins/.m2
+
+	sudo mkdir -p /var/lib/jenkins/.m2/repository
+	sudo chown -R jenkins:jenkins /var/lib/jenkins/.m2
 
 refresh the jenkins and close the nexux and start again .
 
@@ -212,18 +212,22 @@ check the password in maven config in jenkins and also in jenkins server on ubun
 last : 
 
 -open file 
-#sudo visudo
+	
+	#sudo visudo
 add line  to the last of file 
-#jenkins ALL=(ALL) NOPASSWD: ALL
+
+	#jenkins ALL=(ALL) NOPASSWD: ALL
 
 
 build again :
 
-12. # vim /etc/sudoers
+	12. # vim /etc/sudoers
 
 
 
 
-jenkins ALL=(ALL) NOPASSWD: /bin/systemctl restart nginx, /bin/rm, /bin/cp
+	jenkins ALL=(ALL) NOPASSWD: /bin/systemctl restart nginx, /bin/rm, /bin/cp
+
 or
-sudo chown -R jenkins:jenkins /var/www/html
+	
+	sudo chown -R jenkins:jenkins /var/www/html
